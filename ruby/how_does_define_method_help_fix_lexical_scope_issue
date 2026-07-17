@@ -1,0 +1,46 @@
+## Error code due to non availability of surrounding variable inside the method
+
+irb(main):005> x = 10 => 10 irb(main):006* def counter irb(main):007* Proc.new do irb(main):008* x += 1 irb(main):009* end irb(main):010> end => :counter irb(main):011> c = counter => #<Proc:0x00007a49799426d0 (irb):7> irb(main):012> puts c.call (irb):8:in `block in counter': undefined method `+' for nil (NoMethodError) x += 1 ^ from (irb):12:in `<main>' from <internal:kernel>:187:in `loop' from /home/arjunsharma/.rbenv/versions/3.3.3/lib/ruby/gems/3.3.0/gems/irb-1.18.0/exe/irb:9:in `<top (required)>' from /home/arjunsharma/.rbenv/versions/3.3.3/bin/irb:25:in `load' from /home/arjunsharma/.rbenv/versions/3.3.3/bin/irb:25:in `<main>' irb(main):013>
+
+## Fix:
+The error happens because local variables in Ruby are scoped to the context where they are defined. Your x variable inside the counter method is completely isolated from the x you defined outside.
+## Why it failed
+
+* x = 10 creates a local variable in the top-level main scope.
+* def counter starts a brand new, isolated local scope. It cannot see x from the outside.
+* x += 1 expands to x = x + 1. Because x does not exist inside the method yet, Ruby treats the right-hand x as an uninitialized local variable, which evaluates to nil. You cannot add 1 to nil.
+
+------------------------------
+## How to fix it
+To make a working closure in Ruby, define the method using a block (like define_method) or pass x into the method as an argument.
+## Option 1: Use define_method (Preserves the closure)
+Using define_method keeps the current scope alive, allowing the Proc to see and modify x.
+
+x = 10
+# define_method captures the surrounding local variables
+define_method(:counter) do
+  Proc.new { x += 1 }end
+
+c = counter
+puts c.call # => 11
+puts c.call # => 12
+puts x      # => 12 (the original x is modified)
+
+## Option 2: Pass x as a parameter
+If you want to keep using standard def syntax, pass the starting value into the method.
+
+def counter(start_value)
+  Proc.new { start_value += 1 }end
+
+c = counter(10)
+puts c.call # => 11
+puts c.call # => 12
+
+------------------------------
+To help narrow down the best solution, let me know:
+
+* Do you need the counter to modify the original global x, or should it keep its own independent state?
+* Is this code going inside a Ruby class, or will it stay as a loose script/IRB experiment?
+
+
+

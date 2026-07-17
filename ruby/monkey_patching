@@ -1,0 +1,95 @@
+Monkey patching is a technique used in dynamic programming languages (like Python, JavaScript, and Ruby) to dynamically modify or extend the behavior of code at runtime without altering the original source files. It is highly useful for hotfixing, testing, and mocking. [1, 2, 3, 4, 5] 
+## How It Works
+Because classes and modules are mutable in dynamic languages, methods and attributes can be reassigned on the fly in memory. Once a patch is applied, any subsequent calls to the patched method will execute the new, custom logic instead of the original code. [2, 6, 7, 8] 
+· 1970 M01 1
+## Common Use Cases
+
+* Testing and Mocking: Replacing network-heavy API calls or random number generators with deterministic stubs to create consistent, repeatable unit tests. [6, 9] 
+* Quick Hotfixes: Applying temporary fixes or security patches to third-party libraries without having to wait for upstream releases or maintaining a forked version of the library. [1, 2] 
+* Adding Functionality: Appending custom logging, instrumentation, or new helper methods to existing, built-in classes like pandas.DataFrame or String. [6, 8] 
+
+## Risks and Best Practices
+While powerful, monkey patching is widely considered an anti-pattern or "hack" by many developers due to several major risks: [2, 10, 11, 12] 
+
+* Global Impact: Modifying a class or global module in one place alters its behavior everywhere in the application, which can lead to unpredictable side effects and bugs.
+* Maintainability: Overriding core behavior makes the codebase difficult for other developers to read and debug.
+* Version Compatibility: A library update can change or break the underlying implementation you relied on for your patch. [2, 6, 13, 14] 
+
+For a deeper dive into the caveats and when it's appropriate to use this technique, see the comprehensive community discussions on [Stack Overflow](https://stackoverflow.com/questions/5626193/what-is-monkey-patching).
+
+[1] [https://en.wikipedia.org](https://en.wikipedia.org/wiki/Monkey_patch)
+[2] [https://www.geeksforgeeks.org](https://www.geeksforgeeks.org/python/monkey-patching-in-python-dynamic-behavior/)
+[3] [https://www.youtube.com](https://www.youtube.com/watch?v=ikDMCc1wDd8&t=20)
+[4] [https://www.tothenew.com](https://www.tothenew.com/blog/mocking-vs-monkey-patching-in-python/)
+[5] [https://www.horilla.com](https://www.horilla.com/blogs/overview-of-monkey-patching-in-python/)
+[6] [https://stackoverflow.com](https://stackoverflow.com/questions/5626193/what-is-monkey-patching)
+[7] [https://medium.com](https://medium.com/analytics-vidhya/monkey-patching-in-python-dc3b3f52906c)
+[8] [https://www.youtube.com](https://www.youtube.com/watch?v=5nzuonMB3lY)
+[9] [https://www.youtube.com](https://www.youtube.com/watch?v=wbHaXVqX8sk)
+[10] [https://blog.codinghorror.com](https://blog.codinghorror.com/monkeypatching-for-humans/)
+[11] [https://www.sitepoint.com](https://www.sitepoint.com/pragmatic-monkey-patching/)
+[12] [https://www.geeksforgeeks.org](https://www.geeksforgeeks.org/javascript/monkey-patching-in-javascript/)
+[13] [https://github.com](https://github.com/joouha/modshim)
+[14] [https://eng.lyft.com](https://eng.lyft.com/what-the-heck-is-gevent-4e87db98a8)
+
+
+## Example in ruby:
+
+Here is how monkey patching works in Ruby.
+In Ruby, classes are never closed. You can open any existing class (even built-in ones like String or Integer) at any time and add or overwrite methods. [1, 2, 3, 4, 5] 
+## Example 1: Extending a Built-in Class
+This example adds a new method called yell to the standard String class.
+
+# Open the existing String classclass String
+  def yell
+    "#{self.upcase}!!!"
+  endend
+# Use the new method on any string
+puts "hello".yell # Output: HELLO!!!
+
+## Example 2: Overriding Existing Behavior
+This example modifies the built-in + method on the Integer class to alter how addition works.
+
+# Open the Integer classclass Integer
+  # Alias the original addition method to save it
+  alias_method :original_plus, :+
+
+  # Redefine the + method
+  def +(other)
+    self.original_plus(other).original_plus(1) # Adds 1 to the result
+  endend
+
+puts 2 + 2# Output: 5
+
+## A Safer Ruby Alternative: Refinements
+Because global monkey patching can break other parts of your app, Ruby introduced Refinements. These allow you to patch a class, but the changes are only active in the specific file or module where you explicitly activate them. [6, 7, 8, 9] 
+
+module StringExtensions
+  refine String do
+    def whisper
+      "#{self.downcase}..."
+    end
+  endend
+# The patch is NOT active here# "SHOUT".whisper -> Raises NoMethodError
+class Chat
+  using StringExtensions # Activate the patch ONLY inside this class
+
+  def speak
+    puts "SECRET".whisper
+  endend
+
+Chat.new.speak# Output: secret...
+
+If you are working on a specific project, let me know what problem you are trying to solve or which class you want to modify, and I can show you the best way to patch it safely!
+
+[1] [https://medium.com](https://medium.com/@correo.sakshi_7658/object-oriented-programming-ruby-vs-java-d424a4b886d7)
+[2] [https://mcdermottjesse9.medium.com](https://mcdermottjesse9.medium.com/meta-programming-in-ruby-69aa99cfb4c1)
+[3] [https://www.adaface.com](https://www.adaface.com/blog/ruby-interview-questions/)
+[4] [https://www.shakacode.com](https://www.shakacode.com/blog/metaprogramming-in-ruby/)
+[5] [https://rubyreferences.github.io](https://rubyreferences.github.io/rubyref/language.html)
+[6] [https://en.wikipedia.org](https://en.wikipedia.org/wiki/Ruby_syntax)
+[7] [https://www.cloudbees.com](https://www.cloudbees.com/blog/a-deep-dive-into-ruby-scopes)
+[8] [https://coderpad.io](https://coderpad.io/interview-questions/ruby-interview-questions/)
+[9] [https://www.shakacode.com](https://www.shakacode.com/blog/metaprogramming-in-ruby/)
+
+

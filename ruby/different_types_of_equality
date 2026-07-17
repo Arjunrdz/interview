@@ -1,0 +1,146 @@
+## Q1: difference between == and === in ruby
+
+## Answer 1:
+In Ruby, the main difference is that == checks for generic value equality, while === checks for case equality (or inclusion/membership) and is primarily utilized implicitly behind the scenes in case/when control flows. [1, 2, 3] 
+Unlike languages like JavaScript where === denotes strict type checking, Ruby does not use triple equals for data type strictness. Both operators are actually standard instance methods called on objects, meaning their precise behavior depends entirely on how the class on the left-hand side implements them. [1, 4, 5, 6, 7] 
+------------------------------
+## Core Behavioral Differences
+
+| Feature | == (Value Equality) | === (Case Equality / Subsumption) |
+|---|---|---|
+| Primary Purpose | Checks if two objects have the same value. | Checks if the right side belongs in the left side set. |
+| Context | Standard conditional checks (if statements). | Conditional control switches (case/when statements). |
+| Commutative | Yes (a == b matches b == a). | No (A === b does not mean b === A). |
+
+------------------------------
+## How == (Value Equality) Works
+The == method checks if the data values of two operands match. Ruby handles data types logically here; it will not implicitly coerce unrelated data types like Strings and Integers. However, it will successfully equate matching numeric values across types, such as comparing an Integer to a Float. [1, 2, 8, 9] 
+
+"hello" == "hello"  # => true5 == 5.0            # => true (Inter-numeric matching works)5 == "5"            # => false (Types are explicitly different)
+
+------------------------------
+## How === (Case Equality) Works
+The === method determines whether an item on the right side belongs to a category, group, or range defined on the left side. It is structurally equivalent to asking: "Does the right element fit inside the left container?" [4, 10, 11, 12, 13] 
+Because it is designed for structural categorization, its exact behavior shifts based on the class invoking it: [14, 15, 16] 
+## 1. Class Comparison (Class === object)
+When a Class is on the left, it acts similarly to calling .is_a?, checking if the right operand is an instance of that class. [4, 10] 
+
+String === "hello"  # => true
+Integer === 42      # => true
+String === 42       # => false
+
+## 2. Range Testing (Range === object) [17, 18, 19] 
+When a Range is on the left, it checks whether the value on the right falls anywhere within that specific bound. [20, 21] 
+
+(1..10) === 5       # => true
+(1..10) === 15      # => false
+
+## 3. Pattern Matching (Regexp === object) [22] 
+When a Regular Expression is on the left, it checks whether the string pattern on the right produces a match. [4, 10] 
+
+/aeiou/ === "apple" # => true
+/\d+/ === "apple"   # => false
+
+------------------------------
+## The Connection to case Statements
+Whenever you write a standard case/when switch block in Ruby, the engine implicitly substitutes the when branches with a === evaluation behind the scenes. The value specified next to your case keyword is placed firmly on the right side of the expression. [2, 20] 
+
+input = "secure_password123"
+case inputwhen String
+  # Evaluates: String === input
+  puts "It's a string!"when /\d+/
+  # Evaluates: /\d+/ === input
+  puts "It contains numbers!"end
+
+If you want to dive deeper into object verification in Ruby, I can also explain how eql? and equal? differ from these two operators. Which aspect of Ruby comparison would you like to explore next? [2, 23] 
+
+[1] [https://courses.bigbinaryacademy.com](https://courses.bigbinaryacademy.com/learn-ruby/if-else/difference-between-double-equals-and-triple-equals/)
+[2] [https://medium.com](https://medium.com/@adarshmishra98277/rubys-equality-methods-equal-and-eql-what-s-the-difference-0cdf5ed477db)
+[3] [https://github.com](https://github.com/jbranchaud/til/blob/master/ruby/triple-equals-the-case-equality-operator.md)
+[4] [https://stackoverflow.com](https://stackoverflow.com/questions/3154876/ruby-comparison-operators-vs)
+[5] [https://medium.com](https://medium.com/@kando1sr/not-all-are-evaluated-equally-9b93cdddd59f)
+[6] [https://stackoverflow.com](https://stackoverflow.com/questions/4467538/what-does-the-operator-do-in-ruby)
+[7] [https://stackoverflow.com](https://stackoverflow.com/questions/3422223/vs-in-ruby)
+[8] [https://medium.com](https://medium.com/@khalidh64/difference-between-eql-equal-in-ruby-2ffa7f073532)
+[9] [https://www.programiz.com](https://www.programiz.com/ruby/comparison-logical-operators)
+[10] [https://dev.to](https://dev.to/baweaver/understanding-ruby-triple-equals-2p9c)
+[11] [https://medium.com](https://medium.com/@khalidh64/difference-between-eql-equal-in-ruby-2ffa7f073532)
+[12] [https://www.tutorialgateway.org](https://www.tutorialgateway.org/javascript-comparison-operators/)
+[13] [https://www.naukri.com](https://www.naukri.com/code360/library/object-equality-in-ruby)
+[14] [https://medium.com](https://medium.com/@ramadan123sayed/understanding-equality-in-kotlin-the-power-of-and-001d6acd8b08)
+[15] [https://www.blackbytes.info](http://www.blackbytes.info/2017/03/ruby-equality/)
+[16] [https://courses.bigbinaryacademy.com](https://courses.bigbinaryacademy.com/learn-ruby/if-else/difference-between-double-equals-and-triple-equals/)
+[17] [https://www.scaler.com](https://www.scaler.com/topics/ruby-switch-statement/)
+[18] [https://www.linkedin.com](https://www.linkedin.com/pulse/difference-between-eql-equal-ahtasham-naeem)
+[19] [https://medium.com](https://medium.com/@adarshmishra98277/rubys-equality-methods-equal-and-eql-what-s-the-difference-0cdf5ed477db)
+[20] [https://www.naukri.com](https://www.naukri.com/code360/library/equality-operators-in-ruby)
+[21] [https://exercism.org](https://exercism.org/tracks/ruby/exercises/blackjack)
+[22] [https://ruby-doc.org](https://ruby-doc.org/core-2.5.8/Regexp.html)
+[23] [https://medium.com](https://medium.com/rubycademy/object-equality-in-ruby-667f00c40194)
+
+
+
+## Q2: And what about equal and eqls
+
+## Answer 2:
+
+In Ruby, the two methods you are referring to are equal? and eql? (note the exact spelling, as there is no eqls method in Ruby). [1] 
+The primary difference is that equal? checks for object identity (if two variables point to the exact same spot in memory), while eql? checks for strict type and value equality (often used for hash keys). [2, 3, 4, 5, 6] 
+------------------------------
+## Comparison of All Four Ruby Equality Methods
+
+| Method | Focus | Strictness | Common Use Case |
+|---|---|---|---|
+| == | Value | Loose numeric types | Everyday conditional logic |
+| === | Belonging | Case / Set membership | case/when statements |
+| eql? | Value + Type | Strict data types | Hash key generation [1] |
+| equal? | Identity | Ultimate strictness | Memory address checks |
+
+------------------------------
+## How equal? Works (Identity Equality)
+The equal? method determines if two objects are the exact same entity in your system's memory. It compares the internal object_id of the items. Even if two items look identical and have the same data, equal? will return false if they live in different memory slots. [7, 8, 9] 
+
+str1 = "ruby"
+str2 = "ruby"
+
+str1 == str2       # => true  (They have the same text)
+str1.equal?(str2)  # => false (They are two separate objects in memory)
+
+str3 = str1
+str1.equal?(str3)  # => true  (They point to the exact same memory address)
+
+Note: You should never override the equal? method in your custom classes.
+------------------------------
+## How eql? Works (Strict Type Equality)
+The eql? method checks if two objects have the same value and the exact same data type. Unlike ==, it does not allow implicit matching across different numeric types (like matching an Integer to a Float). [10, 11, 12, 13] 
+
+5 == 5.0     # => true  (Value equality ignores the type difference)5.eql?(5.0)  # => false (Integer vs Float: Different data types) [1]
+
+## Why eql? Matters: Hash Keys
+Ruby uses eql? behind the scenes to determine how keys are stored and retrieved in a Hash. If two keys do not return true for eql?, they are treated as completely different keys, even if == says they are equal.
+
+weights = {}
+weights[5] = "Five"
+weights[5.0] = "Five Point Zero"
+# Because 5.eql?(5.0) is false, Ruby creates two separate keys:# weights => {5=>"Five", 5.0=>"Five Point Zero"}
+
+------------------------------
+If you are building custom classes, I can show you how to override == and hash so your objects behave correctly with these methods. Would you like to see a practical code example for a custom class? [14] 
+
+[1] [https://www.naukri.com](https://www.naukri.com/code360/library/object-equality-in-ruby)
+[2] [https://codefinity.com](https://codefinity.com/courses/v2/04fb3c65-4043-4ee3-a995-cba5bdd807af/159cbd5f-0124-4d72-892f-a822e6ba42a8/2ec1e5d0-0c6a-4361-ba5b-5665a4394437)
+[3] [https://www.rian.me](http://www.rian.me/2013/10/15/what-is-the-difference-between-equals-equals-equals-and-equals-equals-in-ruby/)
+[4] [https://dept-info.labri.fr](https://dept-info.labri.fr/~strandh/Teaching/MTP/Common/David-Lamkins/chapter17.html)
+[5] [https://blog.devops.dev](https://blog.devops.dev/eql-equal-ruby-b3c38d7adb36)
+[6] [https://www.linkedin.com](https://www.linkedin.com/pulse/eq-partialeq-rust-amit-nadiger-514uc)
+[7] [https://dev.to](https://dev.to/rossellafer/learning-ruby-check-equality-51ng)
+[8] [https://www.upgrad.com](https://www.upgrad.com/tutorials/software-engineering/java-tutorial/equals-method-in-java/)
+[9] [https://www.reddit.com](https://www.reddit.com/r/learnjava/comments/9xx353/confused_on_how_equals_method_works_for_objects/)
+[10] [https://medium.com](https://medium.com/rubycademy/object-equality-in-ruby-667f00c40194)
+[11] [https://www.geeksforgeeks.org](https://www.geeksforgeeks.org/python/difference-between-and-is-operator-in-python/)
+[12] [https://www.linkedin.com](https://www.linkedin.com/pulse/difference-between-eql-equal-ahtasham-naeem)
+[13] [https://medium.com](https://medium.com/@kando1sr/not-all-are-evaluated-equally-9b93cdddd59f)
+[14] [https://scsynth.org](https://scsynth.org/t/understanding-equality-and-identity/11254)
+
+
+

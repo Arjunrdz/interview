@@ -1,0 +1,16 @@
+The :: operator in Ruby is called the Scope Resolution Operator. It is used to access constants, modules, classes, or methods defined inside another class or module.
+## How it Works in Your Code
+
+* EXPECTED_MINUTES_IN_OVEN is a constant because it starts with a capital letter.
+* It is nested inside the Lasagna class.
+* To reach inside the Lasagna namespace from the outside, you use Lasagna::EXPECTED_MINUTES_IN_OVEN.
+
+## Key Use Cases
+
+* Accessing Constants: Reaching variables that do not change (like your oven time).
+* Accessing Nested Classes: If you have a class inside a class (e.g., Log::Error).
+* Root Namespace: Starting a line with :: (like ::Net::HTTP) tells Ruby to look at the very top level of your project, ignoring any local namespaces.
+
+Would you like help implementing the methods inside your Lasagna class, or would you like to see an example of using :: with nested modules?
+
+

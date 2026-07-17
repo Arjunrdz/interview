@@ -1,0 +1,296 @@
+Q1: What is the difference between java bytecode and ruby bytecode?
+Q2: In ruby, the puts operation is not atomic in nature, why? 
+Q3: How to make puts operation atomic in nature?
+Q4: What will be the output of puts "hello\rworld"?
+Q5: What is scope resolution operator in ruby. Mention its use cases with example.
+Q6: What is safe navigation operator in ruby? (Also called lonely operator)
+
+Case, Until, Unless, collect map, iterator, break, redo, next, ternary, and, or, unless, closure in ruby, proc, lambda, block (is for loop block) (multi line, singl line), select collect & map, each always returns original array, shallow and deep copy, hash in ruby, difference between collect and map, iterators of hash in ruby, access modifiers
+
+
+Q7: Convert multidimentional array to 1d array in ruby
+Q8: Difference between public, private, protected in ruby
+Q9: How to remove nil values from array? Should we use compact?
+Q10: What are different ways of defining class methods?
+Q11: When to use && , when to use and? (https://gemini.google.com/u/1/app/afd06d21a1c69306, hld)
+
+&& should be used in expression or in conditional statements because it prevent bugs associated with lower precedance issue of and. and should be used in control flow, when you want the second expression to be evaluated after the first one succeds. But if it is 'and' which have the issue due to which it should not be used for boolean logic, is there anything stopping && from being used in control flow? Like we can do do_something && puts "Success!" & it will still work just like and counterpart?
+
+Q12: Practice complex conditional chains. (Involving and, or, not, &&, ||, !, !!, !~, !=)
+
+Q13: Why "ruby".equal?("ruby") => false and "ruby".equal?("ruby") => true
+
+In Ruby, every string literal creates a new object in memory, while integers are performance-optimized immediate values.
+Here is exactly why they behave differently under the .equal? method.
+## 1. The .equal? Method Checks Identity
+The .equal? method checks object identity. It returns true only if both sides point to the exact same object slot in memory. It does not check if the values inside the objects are equal.
+## 2. Strings Are Mutable (Changeable)
+Every time you type "ruby", Ruby allocates a brand-new space in memory for a new string object.
+
+* The first "ruby" lives at one memory address.
+* The second "ruby" lives at a completely different address.
+* Because they are two distinct objects, .equal? returns false.
+
+## 3. Integers Are Immutable and Singletons
+For performance, Ruby handles numbers differently.
+
+* Small integers are stored directly inside the variable pointer (immediate values).
+* There is only ever one object in memory representing the number 1.
+* Every time you use 1 anywhere in your code, it points to that exact same memory slot.
+* Because both sides refer to the identical object, .equal? returns true.
+
+Q14: Since operators are methods in ruby we can define our own custom operators, how?
+
+Q15: Difference between each and map in ruby
+Q16: can we acess private method in child class or not?
+Q17: How to create singleton class in ruby?
+Q18: How does attr_accessor :state work in ruby?
+Q19: How many ways can we define class in ruby? And what does << , < does in class 
+Q20: Practice question on array and hash
+Q21: How to convert hash to array and array to hash?
+Q22:                                          
+               hash.compare_by_identity?            Returns true if key is a                
+irb(main):008> hash.hash
+               hash.value?                         ▄Press Alt+d to read the full document   
+               hash.compare_by_identity            ▀Hash.hash                               
+               hash.compare_by_identity?                                                    
+               hash.compact                         (from ruby core)                        
+               hash.deconstruct_keys                ----------------------------------------
+               hash.dig                               hash.hash -> an_integer               
+               hash.any?                                                                    
+               hash.empty?                          ----------------------------------------
+               hash.eql?                                                                    
+               hash.key                             Returns the Integer hash-code for the   
+               hash.to_h                            hash.                                   
+               hash.include?                                                                
+               hash.replace                         Two Hash objects have the same hash-code
+               hash.clear                           if their content is the same (regardless
+               hash.hash                            of order):                              
+                                                      h1 = {foo: 0, bar: 1, baz: 2}         
+                                                      h2 = {baz: 2, bar: 1, foo: 0}         
+                                                      h2.hash == h1.hash # => true          
+                                                      h2.eql? h1 # => true   
+                                                      
+Q23: What will be the value of arr = [[1,2,3]].freeze => arr << 4 => p arr    
+Q24: In ruby does closure copies variable or references variable? (step 5 at: https://chatgpt.com/share/6a59b6c1-5650-83ee-8155-0988edc10c78)
+Q25: How does define_method help capture the surrounding context the variables? (/home/arjunsharma/Documents/interview/ruby)    
+Q26: In ruby to access instance variable outside a class should it only be done by creating instance method or can we use class method for this job too. And what about the accessibility of class variable? (https://onecompiler.com/ruby/44vfewdvc)
+
+
+
+Hash, array, oops, inheritance, method lookup, poly, rabbitmq, open class, monkey patching, abs, block, closure, module, what we use for multiple inheritance in ruby, kernel module, file database, exception handling, debugging, mixing
+
+
+
+class User
+  @@users = []
+  @@next_id = 1
+
+  attr_reader :id
+  attr_accessor :name, :email, :age
+
+  def initialize(name, email, age)
+    @id = @@next_id
+    @@next_id += 1
+
+    @name = name
+    @email = email
+    @age = age
+
+    @@users << self
+  end
+
+  # Instance Methods
+
+  def display
+    puts "ID: #{@id}"
+    puts "Name: #{@name}"
+    puts "Email: #{@email}"
+    puts "Age: #{@age}"
+    puts "-" * 30
+  end
+
+  def update(name: nil, email: nil, age: nil)
+    @name = name if name
+    @email = email if email
+    @age = age if age
+  end
+
+  # Class Methods
+
+  def self.all_users
+    if @@users.empty?
+      puts "No users found."
+    else
+      @@users.each(&:display)
+    end
+  end
+
+  def self.find_by_id(id)
+    @@users.find { |user| user.id == id }
+  end
+
+  def self.find_by_email(email)
+    @@users.find { |user| user.email == email }
+  end
+
+  def self.delete(id)
+    user = find_by_id(id)
+    if user
+      @@users.delete(user)
+      puts "User deleted successfully."
+    else
+      puts "User not found."
+    end
+  end
+
+  def self.count
+    @@users.length
+  end
+end
+
+# ----------------------------
+# Taking Input from User
+# ----------------------------
+
+print "Enter Name: "
+name = gets.chomp
+
+print "Enter Email: "
+email = gets.chomp
+
+print "Enter Age: "
+age = gets.chomp.to_i
+
+User.new(name, email, age)
+
+puts "\nAll Users"
+User.all_users
+
+puts "\nTotal Users: #{User.count}"
+
+# Example of updating
+user = User.find_by_email(email)
+user.update(age: 30) if user
+
+puts "\nAfter Update"
+User.all_users
+
+
+--------------------------------------------------------------------------------------------------
+In Ruby, the reduce method (also aliased as inject) combines all elements of a collection into a single value by repeatedly applying a binary operation. It passes a running total (called the accumulator) and the current element into a block or method for each iteration. [1, 2, 3, 4] 
+## Basic Block Syntax
+When using a block, the first block argument is the accumulator, and the second is the current element. [4] 
+
+# Summing numbers with an explicit initial value of 0
+[1, 2, 3, 4].reduce(0) do |accumulator, element|
+  accumulator + elementend# => 10
+
+## Initial Values and Trapping Pitfalls
+
+* With an Initial Value: The accumulator starts with that specified value, and the iteration starts on the very first element of the collection. [4, 5] 
+* Without an Initial Value: The accumulator defaults to the first element of the collection, and iteration skips to the second element. [4] 
+* Empty Collection Warning: Calling .reduce without an initial value on an empty array returns nil, whereas providing an initial value like reduce(0) will safely return 0. [6, 7, 8] 
+
+## Shorthand Syntaxes
+Ruby offers highly readable shortcuts if you are just executing basic methods or operations across elements: [9] 
+
+* Symbol Shortcut: Pass the symbol of an operator or method directly as an argument.
+
+[1, 2, 3, 4].reduce(:+)     # => 10
+[1, 2, 3, 4].reduce(10, :+) # => 20 (Starts at 10)
+
+* Method Chaining/Shorthand: You can use Ruby's numbered parameters (_1 and _2) for quick blocks.
+
+[1, 2, 3, 4].reduce { _1 + _2 } # => 10
+
+[1, 2, 10, 11, 12] 
+
+## Advanced Examples
+reduce is not restricted to numbers; it can transform collections into entirely new data structures. [13, 14, 15, 16, 17] 
+
+* Building a Hash: Grouping or counting frequencies.
+
+words = ["apple", "banana", "apple"]
+words.reduce(Hash.new(0)) do |result, word|
+  result[word] += 1
+  resultend# => {"apple"=>2, "banana"=>1}
+
+(Note: When modifying an object like a Hash inside a block, you must explicitly return the accumulator (result) at the end of the block, or the next iteration will break).
+* Flattening an Array:
+
+[[1, 2], [3, 4]].reduce([]) { |acc, arr| acc + arr }# => [1, 2, 3, 4]
+
+[1, 10, 12, 18, 19] 
+
+Would you like to see how to use reduce to transform an array into a Hash, or do you need help debugging a specific error in your current code?
+
+[1] [https://dev.to](https://dev.to/jrrohrer/ruby-reduce-cob)
+[2] [https://ruby-doc.org](https://ruby-doc.org/core-2.4.6/Enumerable.html)
+[3] [https://martinfowler.com](https://martinfowler.com/articles/collection-pipeline/reduce.html)
+[4] [https://mixandgo.com](https://mixandgo.com/learn/ruby/reducer)
+[5] [https://medium.com](https://medium.com/@haley_76177/a-guide-to-the-ruby-enumerable-reduce-987b5f85dfc4)
+[6] [https://stackoverflow.com](https://stackoverflow.com/questions/13882956/reduce-hash-values)
+[7] [https://codeburst.io](https://codeburst.io/how-to-reduce-array-to-a-single-type-11cfe2bcae66)
+[8] [https://medium.com](https://medium.com/@haley_76177/a-guide-to-the-ruby-enumerable-reduce-987b5f85dfc4)
+[9] [https://decodo.com](https://decodo.com/blog/web-scraping-with-ruby)
+[10] [https://www.ruby-forum.com](https://www.ruby-forum.com/t/asking-for-full-break-down-explanation-of-reduce-method/259893)
+[11] [https://www.reddit.com](https://www.reddit.com/r/ruby/comments/1ad4ng5/reduce/)
+[12] [https://medium.com](https://medium.com/@james.a.hughes/using-the-reduce-method-in-ruby-907f3c18ae1f)
+[13] [https://medium.com](https://medium.com/@meganr.edmonds/the-multiple-uses-of-the-reduce-method-in-ruby-7b79382c000a)
+[14] [https://thecodebarbarian.com](https://thecodebarbarian.com/javascript-reduce-in-5-examples.html)
+[15] [https://alsohelp.com](https://alsohelp.com/blog/how-to-use-the-reduce-method-in-ruby)
+[16] [https://codingnomads.com](https://codingnomads.com/javascript-array-method-reduce)
+[17] [https://flexiple.com](https://flexiple.com/javascript/array-reduce-method)
+[18] [https://medium.com](https://medium.com/@lwkchan/javascripts-array-reduce-method-a-guide-and-a-commendation-on-its-flexibility-ea5dc192fad5)
+[19] [https://stackoverflow.com](https://stackoverflow.com/questions/56509288/what-does-in-reduce-method-mean)
+
+
+----------------------------------------------------------------------------------------------------------
+
+Yes, Ruby has a filter method (aliased as select), but it is used to keep elements that match a condition, not delete them.
+To delete elements based on a condition, you should use reject or delete_if instead. [1, 2] 
+## 1. The Opposites: filter vs reject (Returns a new array)
+These methods do not change your original array; they return a brand new, modified array. [3, 4, 5, 6] 
+
+* filter / select: Keeps elements where the block returns true.
+
+numbers = [1, 2, 3, 4, 5]
+numbers.filter { |n| n.even? } # => [2, 4]
+
+* reject: Deletes/filters out elements where the block returns true.
+
+numbers = [1, 2, 3, 4, 5]
+numbers.reject { |n| n.even? } # => [1, 3, 5]
+
+
+## 2. Modifying the Original Array (In-place deletion)
+If you want to permanently mutate and delete elements from the original array, use the bang ! methods or delete_if.
+
+* filter! / select!: Permanently keeps only matching elements.
+* reject! / delete_if: Permanently deletes matching elements.
+
+numbers = [1, 2, 3, 4, 5]
+numbers.delete_if { |n| n > 3 } # numbers is now permanently [1, 2, 3]
+
+[7, 8, 9] 
+
+## Quick Summary
+
+* Use reject if you want a new array without the deleted items.
+* Use delete_if if you want to alter the original array directly. [10, 11] 
+
+Would you like to see how to use these methods with hashes, or do you need an example filtering a complex list of objects?
+
+[1] [https://www.mintbit.com](https://www.mintbit.com/blog/exploring-array-filtering-beyond-the-basics/)
+[2] [https://oneuptime.com](https://oneuptime.com/blog/post/2026-02-21-select-reject-filters-ansible/view)
+[3] [https://builtin.com](https://builtin.com/software-engineering-perspectives/javascript-filter)
+[4] [https://www.dhiwise.com](https://www.dhiwise.com/post/understanding-how-to-remove-element-from-array-javascript)
+[5] [https://medium.com](https://medium.com/@heyamit10/different-ways-to-remove-elements-from-a-numpy-array-59a8a7f8fe33)
+[6] [https://www.naukri.com](https://www.naukri.com/code360/library/ruby-array-filter)
+[7] [https://www.scaler.com](https://www.scaler.com/topics/ruby-filter/)
+[8] [https://www.geeksforgeeks.org](https://www.geeksforgeeks.org/ruby/ruby-array-delete-operation/)
+[9] [https://stackoverflow.com](https://stackoverflow.com/questions/10034678/how-can-i-delete-one-element-from-an-array-by-value)
+[10] [https://liquidjs.com](https://liquidjs.com/filters/reject.html)
+[11] [https://stackabuse.com](https://stackabuse.com/bytes/remove-an-object-from-an-array-by-value-in-javascript/)
+
