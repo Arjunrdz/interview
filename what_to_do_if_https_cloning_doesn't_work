@@ -1,0 +1,47 @@
+## What to do if HTTPS cloning doesn't work
+
+## The GnuTLS recv error (-54) combined with an early EOF indicates that your local network or proxy is dropping the HTTPS connection mid-transfer due to the volume of data being downloaded. [1, 2, 3] 
+You can resolve this Git cloning error using one of the step-by-step methods outlined below.
+## Method 1: Shallow Clone (Recommended Workflow)
+A shallow clone skips the repository's entire history and downloads only the latest snapshot. This drastically decreases the transfer size, bypassing network drops. [4] 
+Run these commands in your terminal:
+
+# 1. Clone only the latest commit
+git clone --depth 1 https://github.com
+# 2. Move into the directory
+cd graphify
+# 3. Pull the remaining history incrementally (optional)
+git fetch --unshallow
+
+## Method 2: Expand the Git Network Buffer
+If Git handles large payloads with default network configurations, the underlying curl buffer can overflow. You can solve this by increasing the memory limit to 500MB and turning off compression. [4, 5, 6] 
+Execute the following configuration parameters before retrying your clone:
+
+# Increase the post buffer size to 500MB
+git config --global http.postBuffer 524288000
+# Disable compression temporarily 
+git config --global core.compression 0
+# Retry your clone command
+git clone https://github.com/Graphify-Labs/graphify
+
+## Method 3: Switch to the SSH Protocol
+If your internet service provider or firewall restricts massive data chunks over port 443 (HTTPS), cloning via SSH protocol entirely avoids the GnuTLS web layer. [2] 
+
+# Ensure you have your SSH keys linked to your GitHub account first
+git clone git@github.com:Graphify-Labs/graphify.git
+
+If you encounter an issue after trying these steps, let me know:
+
+* Are you on a corporate/restricted network or using a VPN?
+* Did the --depth 1 command succeed or fail at the exact same stage? [1, 7, 8] 
+
+
+[1] [https://support.atlassian.com](https://support.atlassian.com/bitbucket-data-center/kb/git-clone-fails-fatal-the-remote-end-hung-up-unexpectedly/)
+[2] [https://www.alexdyas.com](https://www.alexdyas.com/technical/git-rpc-failed/)
+[3] [https://github.com](https://github.com/orgs/community/discussions/48568)
+[4] [https://abdullah.ranktriz.com](https://abdullah.ranktriz.com/blog/20)
+[5] [https://community.atlassian.com](https://community.atlassian.com/forums/Bitbucket-questions/How-can-I-resolve-fetch-pack-unexpected-disconnect-while-reading/qaq-p/2320953)
+[6] [https://medium.com](https://medium.com/@zudheer/fixing-fatal-early-eof-and-index-pack-failed-errors-while-cloning-large-github-repositories-958d3a9b95ac)
+[7] [https://some-natalie.dev](https://some-natalie.dev/blog/casb-mitm-git/)
+[8] [https://github.com](https://github.com/EmuELEC/EmuELEC/issues/765)
+

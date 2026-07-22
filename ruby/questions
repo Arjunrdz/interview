@@ -75,7 +75,16 @@ Q23: What will be the value of arr = [[1,2,3]].freeze => arr << 4 => p arr
 Q24: In ruby does closure copies variable or references variable? (step 5 at: https://chatgpt.com/share/6a59b6c1-5650-83ee-8155-0988edc10c78)
 Q25: How does define_method help capture the surrounding context the variables? (/home/arjunsharma/Documents/interview/ruby)    
 Q26: In ruby to access instance variable outside a class should it only be done by creating instance method or can we use class method for this job too. And what about the accessibility of class variable? (https://onecompiler.com/ruby/44vfewdvc)
-
+Q27: We can use self (explicit receiver) with private methods in ruby. (/home/arjunsharma/Documents/interview/ruby)(we_can_use_self_with_private_methods.txt)
+Q28: SQL Injection
+Q29: Build LLD for hotel management
+Q30: How to ensure ruby looks at top level class even when you define local class with same name?
+Ans30: Use namespace resolution. For example
+	class String
+	end
+	# forces ruby to use built-in custom classes
+	global_string = ::String.new("Hello")
+Q31: How can we use reflection in ruby to bypass private nature of instance variable? https://chatgpt.com/share/6a5f0f23-a87c-83e8-a93f-c60af2c638f7
 
 
 Hash, array, oops, inheritance, method lookup, poly, rabbitmq, open class, monkey patching, abs, block, closure, module, what we use for multiple inheritance in ruby, kernel module, file database, exception handling, debugging, mixing
