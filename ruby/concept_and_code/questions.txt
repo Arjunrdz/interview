@@ -1,0 +1,17 @@
+Q1: What is mixin?
+
+Q2: Super can be called from inside method only? And when calling super must the parent class have the same method name, or different method name works too?
+
+Q3: Ruby is a message-passing language?
+
+Q4: Differnce between dynamic-dispatch and explicit sending?
+
+Q5: Can we call ancestors method directly on a standard object instance in Ruby. (ruby/concept_and_code/lookup_chain/example_1.rb => second begin end statement)
+
+Q6: Can we see extend in ancestors chaining? If not how to view them? (ruby/concept_and_code/lookup_chain/example_3.rb)
+
+Q7: Is proc less strict about parameter than lambda? If so give example (ruby/concept_and_code/answer_7.md)
+
+Q8: What are different ways of handling error when yield block is not provided? (ruby/concept_and_code/answer_8.md)
+
+Q9: Difference between proc and lambda in ruby? ()
