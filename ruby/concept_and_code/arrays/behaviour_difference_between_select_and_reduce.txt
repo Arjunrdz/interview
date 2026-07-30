@@ -1,0 +1,49 @@
+## Erro:
+irb(main):003> [1,2,3].select(&:odd?)
+=> [1, 3]
+irb(main):004> [1,2,3].reduce(&:odd?)
+<internal:numeric>:188:in `odd?': wrong number of arguments (given 1, expected 0) (ArgumentError)
+	from (irb):4:in `each'
+	from (irb):4:in `reduce'
+	from (irb):4:in `<main>'
+	from <internal:kernel>:187:in `loop'
+	from /home/arjunsharma/.rbenv/versions/3.3.3/lib/ruby/gems/3.3.0/gems/irb-1.18.0/exe/irb:9:in `<top (required)>'
+	from /home/arjunsharma/.rbenv/versions/3.3.3/bin/irb:25:in `load'
+	from /home/arjunsharma/.rbenv/versions/3.3.3/bin/irb:25:in `<main>'
+irb(main):005> 
+
+## Fix
+
+The error happens because reduce and select pass a completely different number of arguments to their blocks.
+When you use the & shorthand, Ruby automatically takes the first block argument, treats it as the object, and passes any remaining block arguments into the method as parameters.
+Here is the exact breakdown of why it breaks in reduce but works in select.
+------------------------------
+## 1. How select(&:odd?) Works (1 Argument)
+The select method yields only one element at a time to its block.
+Behind the scenes, Ruby translates [1, 2, 3].select(&:odd?) into:
+
+[1, 2, 3].select { |element| element.odd? }
+
+The .odd? method expects 0 arguments. Since select only passes one element, that element becomes the receiver (element), no extra arguments are passed, and it works perfectly.
+------------------------------
+## 2. Why reduce(&:odd?) Crashes (2 Arguments)
+The reduce method yields two arguments to its block on every iteration: the accumulator (acc) and the current element (ele).
+Behind the scenes, Ruby translates [1, 2, 3].reduce(&:odd?) into:
+
+[1, 2, 3].reduce { |acc, ele| acc.odd?(ele) } # <-- Notice 'ele' is passed inside!
+
+Because reduce provides two block arguments, Ruby takes the first one (acc) as the receiver and tries to pass the second one (ele) directly into the .odd? method.
+This causes Ruby to execute:
+
+1.odd?(2)
+
+Since the .odd? method expects 0 arguments but you just forced it to take 1 argument (2), Ruby crashes with an ArgumentError:
+wrong number of arguments (given 1, expected 0)
+------------------------------
+## Summary Rule
+
+* Only use the & shorthand with methods like map, select, or reject that yield a single argument.
+* Avoid using the & shorthand with reduce unless the method you are calling is explicitly designed to accept a second argument (for example, [1, 2, 3].reduce(&:+) works because 1.+(2) is valid Ruby syntax).
+
+Would you like to see how to use reduce with a symbol directly (without the &) to avoid this issue, or should we look at how Symbol#to_proc handles arguments under the hood?
+

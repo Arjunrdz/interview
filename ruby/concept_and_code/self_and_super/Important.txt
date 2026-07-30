@@ -1,0 +1,3 @@
+important definition of super: "Continue lookup after the class/module where the current method was found."
+
+will be useful to understand code in ruby/concept_and_code/self_and_super/example_2.rb , ruby/concept_and_code/self_and_super/example_5_prepand.rb etc

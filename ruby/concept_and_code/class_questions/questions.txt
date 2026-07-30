@@ -1,0 +1,6 @@
+Q0: The yield keyword can never be used inside any block under any circumstances.
+
+Is this true in ruby?
+
+Q1: What is the difference between Integer.sqrt and Math.sqrt?
+

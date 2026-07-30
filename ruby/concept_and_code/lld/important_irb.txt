@@ -1,0 +1,117 @@
+arjunsharma@arjun-sharma-3420-24:~$ irb
+
+⢀⡴⠊⢉⡟⢿  IRB v1.18.0 - Ruby 3.3.3
+⣎⣀⣴⡋⡟⣻  "edit method" to open the method's source in editor
+⣟⣼⣱⣽⣟⣾  ~
+
+irb(main):001> String.is_a?(String)
+=> false
+irb(main):002> Class.is_a?(Class)
+=> true
+irb(main):003> Module.is_a?(Module)
+=> true
+irb(main):004> Object.is_a?(Object)
+=> true
+irb(main):005> BasicObject.is_a?(BasicObject)
+=> true
+irb(main):006> NilClass.is_a?(NilClass)
+=> false
+irb(main):007> Kernel.is_a?(Kernel)
+=> true
+irb(main):008> Class.is_a?(Object)
+=> true
+irb(main):009> Object.is_a?(Class)
+=> true
+irb(main):010> Integer.is_a?(Integer)
+=> false
+irb(main):011> "".is_a?("")
+(irb):11:in `is_a?': class or module required (TypeError)
+
+"".is_a?("")
+         ^^
+	from (irb):11:in `<main>'
+	from <internal:kernel>:187:in `loop'
+	from /home/arjunsharma/.rbenv/versions/3.3.3/lib/ruby/gems/3.3.0/gems/irb-1.18.0/exe/irb:9:in `<top (required)>'
+	from /home/arjunsharma/.rbenv/versions/3.3.3/bin/irb:25:in `load'
+	from /home/arjunsharma/.rbenv/versions/3.3.3/bin/irb:25:in `<main>'
+irb(main):012> String === "a"
+=> true
+irb(main):013> "".is_a?(String)
+=> true
+irb(main):014> "" => String
+=> nil
+irb(main):015> String => ""
+(irb):15:in `<main>': String: "" === String does not return true (NoMatchingPatternError)
+	from <internal:kernel>:187:in `loop'
+	from /home/arjunsharma/.rbenv/versions/3.3.3/lib/ruby/gems/3.3.0/gems/irb-1.18.0/exe/irb:9:in `<top (required)>'
+	from /home/arjunsharma/.rbenv/versions/3.3.3/bin/irb:25:in `load'
+	from /home/arjunsharma/.rbenv/versions/3.3.3/bin/irb:25:in `<main>'
+irb(main):016> puts "" => String
+{""=>String}
+=> nil
+irb(main):017> p "" => String
+{""=>String}
+=> {""=>String}
+irb(main):018> Class.is_a?(Module)
+=> true
+irb(main):019> Module.is_a?(Class)
+=> true
+irb(main):020> Class.class
+=> Class
+irb(main):021> Module.class
+=> Class
+irb(main):022> String.class
+=> Class
+irb(main):023> Class.class
+=> Class
+irb(main):024> Object.class
+=> Class
+irb(main):025> BasicObject.class
+=> Class
+irb(main):026> value = [1,2]
+=> [1, 2]
+irb(main):027> value => [a, b]
+=> nil
+irb(main):028> puts a
+1
+=> nil
+irb(main):029> puts b
+2
+=> nil
+irb(main):030> [a, b] === [2,3]
+=> false
+irb(main):031> a
+=> 1
+irb(main):032> b
+=> 2
+irb(main):033> [a,b] == [2,3]
+=> false
+irb(main):034> [a,b] = [2,3]
+<internal:kernel>:187:in `loop': (irb):34: syntax error, unexpected '=', expecting end-of-input (SyntaxError)
+[a,b] = [2,3]
+      ^
+
+	from /home/arjunsharma/.rbenv/versions/3.3.3/lib/ruby/gems/3.3.0/gems/irb-1.18.0/exe/irb:9:in `<top (required)>'
+	from /home/arjunsharma/.rbenv/versions/3.3.3/bin/irb:25:in `load'
+	from /home/arjunsharma/.rbenv/versions/3.3.3/bin/irb:25:in `<main>'
+irb(main):035> value = 5
+=> 5
+irb(main):036> value => 5
+=> nil
+irb(main):037> 5 === 5
+=> true
+irb(main):038> Integer === 5
+=> true
+irb(main):039> Class === 5
+=> false
+irb(main):040> Class === ""
+=> false
+irb(main):041> Class === Integer
+=> true
+irb(main):042> Class === Module
+=> true
+irb(main):043> Class === BasicObject
+=> true
+irb(main):044> Class === String
+=> true
+irb(main):045> 

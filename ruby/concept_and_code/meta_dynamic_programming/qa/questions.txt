@@ -1,0 +1,1 @@
+Q0: If both dynamic and meta programming does runtime method resolution then what is the difference? (ruby/concept_and_code/meta_dynamic_programming/qa/answer_0.md)

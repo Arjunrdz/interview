@@ -1,0 +1,1 @@
+Q0: How does precedance of do..while and {} works? (ruby/concept_and_code/arrays/example_1_reduce.rb)

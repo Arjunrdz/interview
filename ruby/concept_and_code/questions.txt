@@ -1,4 +1,44 @@
+Q0: lets say I have a class in ryb which has a method. Inside the class we have case when too (this is not inside any method but directly inside class). When I call the method inside when condition will it run if the method is instance method or we have to make it class method first? (ruby/concept_and_code/answer_0.md)
+
+	Q0A: What will be the output of the given code:
+		n = 1234
+		n.to_s
+		n.to_s!
+
+		s = "ab"
+		s.reverse
+		s
+		s.to_i
+	
+	Q0B: What will be the output of given code:
+		"a".singleton_class
+		"a".singleton_class.ancestors
+		"a".singleton_methods
+		String.singleton_methods
+		"a".singleton_method
+		String.singleton_method
+
+		1.singleton_class
+		1.singleton_class.ancestors
+		1.singleton_methods
+		Integer.singleton_methods
+		Number.singleton_methods
+		Numeric.singleton_methods
+		1.singleton_method
+		Integer.singleton_method
+		Numeric.singleton_method
+
+		singleton_methods takes one argument, what it is and what it does?
+
 Q1: What is mixin?
+
+	Q1A: Different ways of using & in ruby
+	Q1B: How to convert a block to proc and vice versa?
+	Q1C: At DB level & refers as a safety check and besides that it for converting block to proc and vice versa?
+	Q1D: Ways to use .method and what they means? (ruby/concept_and_code/answer_1D.md)
+	Q1E: What happens when you define a method with keyword name and call it, how can you call it? (ruby/concept_and_code/answers/answer_1E.md)
+	Q1F: What is the differnce between .singleton_class.ancestors, .singleton_methods, .singleton_method ? What is the default parameter which .singleton_methods takes?
+
 
 Q2: Super can be called from inside method only? And when calling super must the parent class have the same method name, or different method name works too?
 
@@ -14,4 +54,30 @@ Q7: Is proc less strict about parameter than lambda? If so give example (ruby/co
 
 Q8: What are different ways of handling error when yield block is not provided? (ruby/concept_and_code/answer_8.md)
 
-Q9: Difference between proc and lambda in ruby? ()
+    Q8.1: We don't require begin end block for rescue anymore? And can we have multiple resuce? Give example (have to search)
+    Q8.2: Loggers, pretty print, binding.irb
+    
+
+Q9: Difference between proc and lambda in ruby? (ruby/concept_and_code/answer_9.md)
+
+Q10: Difference between regular instance variable, class instance variable, and instance variables.
+
+Q11: What are the different ways we can figure out which class a method belongs to? (ruby/concept_and_code/answer_11.md)
+
+Q12: Can we create class inside module, module inside class. Is it a good idea? Give example (have to search)
+
+Q13: What does namespacing mean in ruby? Give example (have to search)
+
+Q14: Different array methods like map, each, etc and what they return? Do they return original arry? Update orignal array? (have to search)
+
+Q15: Revise normalization, ACID, which algorithm does index uses, etc. (have to keep doing)
+
+Q16: What does class << self does? Understand this properly.
+
+Q17: Difference between * and ** in ruby (have to seach)
+
+Q18: Built in ruby exception class heirarchy (have to search)
+
+Q19: Flexible nature of mongodb (ruby/concept_and_code/answer_19.md
+
+list user, create user, find by username, update, show

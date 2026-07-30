@@ -1,0 +1,4 @@
+Q0: What does => operator does in ruby? (ruby/concept_and_code/lld/answer_0.md)
+    Q0A: How does === internally works ? (ruby/concept_and_code/lld/answer_0A.md)
+        - How is === different from => ? (Remember yourself)(ruby/concept_and_code/lld/important_irb.txt, and query 2 in Q0A solution)
+        - Does => always delegates to === ? (query 2 in Q0A solution)  
