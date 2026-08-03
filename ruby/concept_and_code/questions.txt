@@ -29,6 +29,10 @@ Q0: lets say I have a class in ryb which has a method. Inside the class we have 
 		Numeric.singleton_method
 
 		singleton_methods takes one argument, what it is and what it does?
+	
+	Q0C: How to check types of a variable? What is the difference between is_a? and instance_of?
+
+	Q0D: Why can we do 1.class but not 1.superclass (ruby/concept_and_code/answers/answer_0D.md)
 
 Q1: What is mixin?
 
